@@ -14,6 +14,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{secrets.SUBMODULE_TOKEN}}
+          submodules: true
       # - name: Set Default Scheme
         # run: |
           # scheme_list=$(xcodebuild -list -json | tr -d "\n")
