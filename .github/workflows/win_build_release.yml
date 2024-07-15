@@ -18,6 +18,8 @@ jobs:
           fetch-depth: 0
           token: ${{secrets.SUBMODULE_TOKEN}}
           submodules: true
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
       - name: Build
         run: |
           cmake . -G "Visual Studio 17 2022" -A x64 -DJUCE_BUILD_EXAMPLES=OFF -Bbuild_msvs
