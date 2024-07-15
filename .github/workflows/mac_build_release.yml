@@ -1,4 +1,4 @@
-name: Xcode - Build and Analyze
+name: mac release build
 
 on:
   push:
@@ -22,3 +22,9 @@ jobs:
         run: |
           sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
           scripts/mac_build_release.sh
+      - name: save artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: mac release
+          path: build_xcode/src/AudioPluginExample_artefacts/Release/
+
