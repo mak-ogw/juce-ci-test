@@ -1,10 +1,8 @@
-name: win release build
+name: build release binaries for Windows
 
 on:
   push:
-    branches: [ "win_test" ]
-  # pull_request:
-  #   branches: [ "win_test" ]
+    branches: [ "win_release" ]
 
 jobs:
   build:
@@ -23,10 +21,12 @@ jobs:
       - name: Build
         run: |
           cmake . -G "Visual Studio 17 2022" -A x64 -DJUCE_BUILD_EXAMPLES=OFF -Bbuild_msvs
-          msbuild /m /p:Configuration=Release build_msvs/juce-ci-test.sln
+          msbuild /m /p:Configuration=Release build_msvs/juce-ci-test.vcxproj
+          mkdir juce-ci-test_release_win
+          cp build_msvs/src/AudioPluginExample_artefacts/Release/Standalone juce-ci-test_release_win
+          cp build_msvs/src/AudioPluginExample_artefacts/Release/VST3 juce-ci-test_release_win
       - name: save artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build_msvs
-          path: build_msvs/
-
+          name: juce-ci-test_release_win
+          path: juce-ci-test_release_win

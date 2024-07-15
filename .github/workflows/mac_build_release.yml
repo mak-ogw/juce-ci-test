@@ -1,4 +1,4 @@
-name: mac release build
+name: build release binaries for Mac
 
 on:
   push:
@@ -21,12 +21,15 @@ jobs:
       - name: Build
         run: |
           sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
-          scripts/mac_build_release.sh
-          mkdir artifacts
-          tar -zcvf results.tar.gz -C build_xcode/src/AudioPluginExample_artefacts/Release/  .
+          cmake . -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -G "Xcode" -DJUCE_BUILD_EXAMPLES=OFF -Bbuild_xcode
+          xcodebuild -project build_xcode/juce-ci-test.xcodeproj -configuration Release -target ALL_BUILD
+          mkdir juce-ci-test_release_mac
+          cp build_xcode/src/AudioPluginExample_artefacts/Release/Standalone juce-ci-test_release_mac
+          cp build_xcode/src/AudioPluginExample_artefacts/Release/AU juce-ci-test_release_mac
+          cp build_xcode/src/AudioPluginExample_artefacts/Release/VST3 juce-ci-test_release_mac
       - name: save artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: mac release
-          path: build_xcode/src/AudioPluginExample_artefacts/Release/
+          name: juce-ci-test_release_mac
+          path: juce-ci-test_release_mac
 
