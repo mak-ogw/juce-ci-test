@@ -22,9 +22,9 @@ jobs:
           cmake . -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -G "Xcode" -DJUCE_BUILD_EXAMPLES=OFF -Bbuild_xcode
           xcodebuild -project build_xcode/juce-ci-test.xcodeproj -configuration Release -target ALL_BUILD
           mkdir juce-ci-test_release_mac
-          cp build_xcode/src/AudioPluginExample_artefacts/Release/Standalone juce-ci-test_release_mac
-          cp build_xcode/src/AudioPluginExample_artefacts/Release/AU juce-ci-test_release_mac
-          cp build_xcode/src/AudioPluginExample_artefacts/Release/VST3 juce-ci-test_release_mac
+          cp -r build_xcode/src/AudioPluginExample_artefacts/Release/Standalone juce-ci-test_release_mac
+          cp -r build_xcode/src/AudioPluginExample_artefacts/Release/AU juce-ci-test_release_mac
+          cp -r build_xcode/src/AudioPluginExample_artefacts/Release/VST3 juce-ci-test_release_mac
       - name: save artifacts
         uses: actions/upload-artifact@v2
         with:
