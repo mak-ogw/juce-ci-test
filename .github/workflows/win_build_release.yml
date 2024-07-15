@@ -1,0 +1,30 @@
+name: win release build
+
+on:
+  push:
+    branches: [ "win_test" ]
+  # pull_request:
+  #   branches: [ "win_test" ]
+
+jobs:
+  build:
+    name: Build project using MSBuild command
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{secrets.SUBMODULE_TOKEN}}
+          submodules: true
+      - name: Build
+        run: |
+          cmake . -G "Visual Studio 17 2022" -A x64 -DJUCE_BUILD_EXAMPLES=OFF -Bbuild_msvs
+          msbuild /m /p:Configuration=Release build_msvs/juce-ci-test.sln
+      - name: save artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build_msvs
+          path: build_msvs/
+
