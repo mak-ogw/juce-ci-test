@@ -2,9 +2,7 @@ name: build release binaries for Mac
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "mac_release" ]
 
 jobs:
   build:
