@@ -22,6 +22,8 @@ jobs:
         run: |
           sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
           scripts/mac_build_release.sh
+          mkdir artifacts
+          tar -zcvf results.tar.gz -C build_xcode/src/AudioPluginExample_artefacts/Release/  .
       - name: save artifacts
         uses: actions/upload-artifact@v2
         with:
